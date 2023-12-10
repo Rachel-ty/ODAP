@@ -1,4 +1,4 @@
-package com.example.odap.DTO;
+package com.example.odap.response;
 
 import com.example.odap.entity.TagData;
 import lombok.Data;
