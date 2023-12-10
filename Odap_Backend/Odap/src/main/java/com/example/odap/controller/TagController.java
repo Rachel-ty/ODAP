@@ -1,5 +1,5 @@
 package com.example.odap.controller;
-import com.example.odap.DTO.TagResponse;
+import com.example.odap.response.TagResponse;
 import com.example.odap.entity.TagData;
 import com.example.odap.repository.ImageTagDataRepo;
 import com.example.odap.repository.VoiceDataRepository;
