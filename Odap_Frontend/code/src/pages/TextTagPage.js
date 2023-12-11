@@ -24,6 +24,7 @@ const TextTagPage = () => {
         sample_id: sampleId,
         dataset_id: datasetId,
       },
+      withCredentials: true
     });
     if (response.data.code === 200) {
       setTagList(response.data.data);

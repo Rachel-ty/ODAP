@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     @Override
     public User register(String userName, String password) {
         // 检查用户名是否已经存在
@@ -21,7 +24,8 @@ public class UserServiceImpl implements UserService {
             throw new UserRegistrationException("用户名已存在");
         }
         // 创建一个新用户对象
-        User user = new User(userName, password);
+        String encodedPassword = passwordEncoder.encode(password);
+        User user = new User(userName, encodedPassword);
         // 将新用户对象保存到数据库中
         return userRepository.save(user);
     }
@@ -44,5 +48,14 @@ public class UserServiceImpl implements UserService {
         }
         User user = (User) session.getAttribute("user");
         return user.getId();
+    }
+    @Override
+    public User getCurrentUser(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user")==null){
+            return null;
+        }
+        User user= (User) session.getAttribute("user") ;
+        return user;
     }
 }

@@ -17,5 +17,7 @@ public interface UserService {
 
     // 得到当前用户id
     Long getCurrentUserId(HttpServletRequest request);
+
+    User getCurrentUser(HttpServletRequest request);
 }
 

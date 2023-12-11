@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="101fc3d7-8b6e-429a-bf27-936512bb71af" name="Changes" comment="" />
+    <list default="true" id="101fc3d7-8b6e-429a-bf27-936512bb71af" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/Interceptor/AdminInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/config/WebMvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/DatasetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/DatasetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/TagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/controller/TagController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/repository/ImageTagDataRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/repository/ImageTagDataRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/java/com/example/odap/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/Interceptor/AuthenticationInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/Interceptor/AuthenticationInterceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/config/CorsConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/config/CorsConfig$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/config/CorsConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/config/WebMvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/config/WebMvcConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/DatasetController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/DatasetController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/TagController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/controller/TagController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/repository/ImageTagDataRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/repository/ImageTagDataRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Backend/Odap/target/classes/com/example/odap/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/AudioTagPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/AudioTagPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/TagPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/TagPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/TextTagPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/TextTagPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/UserManagePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/Odap_Frontend/code/src/pages/UserManagePage.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -15,13 +54,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_package_manager_path" value="npm" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "git-widget-placeholder": "hty",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
   <component name="RunManager">
     <configuration name="OdapApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="Odap" />

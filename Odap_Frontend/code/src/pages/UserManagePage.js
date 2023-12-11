@@ -26,6 +26,7 @@ const UserManagePage = () => {
                     page_num: currentPage,
                     page_size: pageSize
                 },
+                withCredentials: true
             });
             if (response.data.code === 200) {
                 const { data } = response.data;
@@ -59,6 +60,7 @@ const UserManagePage = () => {
             if (code === 200) {
                 console.log(response);
                 message.success('删除成功');
+                fetchData();
             } else {
                 message.error("删除失败", code);
                 alert(code);

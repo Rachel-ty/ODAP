@@ -25,6 +25,7 @@ public class AdminController {
     @Autowired
     private UserRepository userRepository;
 
+    @CrossOrigin
     @GetMapping("/user_by_pages")
     public ResponseEntity<Map<String, Object>> getUsersByPage(
             @RequestParam("page_num") int pageNum,
@@ -44,6 +45,8 @@ public class AdminController {
     }
 
 
+
+
     @RequestMapping("/del_user")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> delUser(HttpServletRequest request,
@@ -51,19 +54,12 @@ public class AdminController {
     ){
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if(user.getUserName().equals("root")){ // 验证是否是管理员用户
             User delUser = userRepository.findByUserName(userName);
             userRepository.delete(delUser);
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
             response.put("error_msg", "success");
             return ResponseEntity.ok(response);
-        }
-        else{
-            Map<String, Object> response = new HashMap<>();
-            response.put("code", 405);
-            response.put("error_msg", "only root member can delete user!");
-            return ResponseEntity.notFound().build();
-        }
+
     }
 }

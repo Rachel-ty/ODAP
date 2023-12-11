@@ -38,7 +38,7 @@ const TagPage = () => {
             sample_id: sampleId,
             dataset_id: datasetId,
             sample_type: sampleType,
-          },
+          }
         });
         const blob = response.data;
         const imageUrl = URL.createObjectURL(blob);
@@ -68,12 +68,14 @@ const TagPage = () => {
     };
   }, [sampleId, datasetId]);
 
+
   const fetchTagList = async () => {
     const response = await axios.get(`http://localhost:8080/api/tags`, {
       params: {
         sample_id: sampleId,
         dataset_id: datasetId,
       },
+      withCredentials: true
     });
     if (response.data.code === 200) {
       response.data.data.forEach((tag) => {
@@ -84,7 +86,14 @@ const TagPage = () => {
     }
   };
 
-  const handleMouseUp = async () => {
+  const handleMouseUp = async (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const scaleX = e.target.naturalWidth / rect.width;
+    const scaleY = e.target.naturalHeight / rect.height;
+    setRectangleEnd({
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY,
+    });
     setMouseDown(false);
     setInputTag(true);
   };
@@ -138,6 +147,7 @@ const TagPage = () => {
           <div style={{ flex: '1', display: 'flex', justifyContent: 'center' }}>
             <Card
               id="left-card"
+              ref={cardRef}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -152,27 +162,23 @@ const TagPage = () => {
                 ref={setImageElement}
                 src={imageUrl}
                 onMouseDown={(e) => {
-                  setMouseDown(true);
                   const rect = e.target.getBoundingClientRect();
-                  const scaleX = e.target.width / rect.width;
-                  const scaleY = e.target.height / rect.height;
+                  const scaleX = e.target.naturalWidth / rect.width;
+                  const scaleY = e.target.naturalHeight / rect.height;
                   setRectangleStart({
-                    x: (e.clientX - rect.left) * scaleX + 248,
-                    y: (e.clientY - rect.top) * scaleY + 98,
+                    x: (e.clientX - rect.left) * scaleX,
+                    y: (e.clientY - rect.top) * scaleY,
                   });
-                  setRectangleEnd({
-                    x: (e.clientX - rect.left) * scaleX + 248,
-                    y: (e.clientY - rect.top) * scaleY + 98,
-                  });
+                  setMouseDown(true);
                 }}
                 onMouseMove={(e) => {
                   if (mouseDown) {
                     const rect = e.target.getBoundingClientRect();
-                    const scaleX = e.target.width / rect.width;
-                    const scaleY = e.target.height / rect.height;
+                    const scaleX = e.target.naturalWidth / rect.width;
+                    const scaleY = e.target.naturalHeight / rect.height;
                     setRectangleEnd({
-                      x: (e.clientX - rect.left) * scaleX + 248,
-                      y: (e.clientY - rect.top) * scaleY + 98,
+                      x: (e.clientX - rect.left) * scaleX ,
+                      y: (e.clientY - rect.top) * scaleY ,
                     });
                   }
                 }}
@@ -184,24 +190,35 @@ const TagPage = () => {
                   position: 'relative',
                 }}
               />
-              {mouseDown && (
+              {mouseDown &&(
                 <div
                   style={{
                     border: '1px solid red',
                     position: 'absolute',
-                    left: rectangleStart.x,
-                    top: rectangleStart.y,
-                    width: rectangleEnd.x - rectangleStart.x,
-                    height: rectangleEnd.y - rectangleStart.y,
+                    left: `${Math.min(rectangleStart.x, rectangleEnd.x)}px`,
+                    top: `${Math.min(rectangleStart.y, rectangleEnd.y)}px`,
+                    width: `${Math.abs(rectangleEnd.x - rectangleStart.x)}px`,
+                    height: `${Math.abs(rectangleEnd.y - rectangleStart.y)}px`,
                   }}
                 />
               )}
               {inputTag && (
                 <Input
                   autoFocus
-                  onBlur={(e) => handleTagSubmit(e.target.value)}
-                  onPressEnter={(e) => handleTagSubmit(e.target.value)}
-                  style={{ position: 'absolute', left: rectangleEnd.x, top: rectangleEnd.y, width: '200px' }}
+                  onBlur={(e) => {
+                    handleTagSubmit(e.target.value);
+                    setInputTag(false); // 将输入框隐藏
+                  }}
+                  onPressEnter={(e) => {
+                    handleTagSubmit(e.target.value);
+                    setInputTag(false); // 将输入框隐藏
+                  }}
+                  style={{
+                    position: 'absolute',
+                    left: `${Math.min(rectangleStart.x, rectangleEnd.x)}px`,
+                    top: `${Math.min(rectangleStart.y, rectangleEnd.y)}px`, // 输入框位于矩形下方
+                    width: '200px',
+                  }}
                 />
               )}
               {tagList.map((tagItem, index) => (

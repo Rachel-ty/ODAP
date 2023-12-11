@@ -8,4 +8,6 @@ import java.util.List;
 public interface ImageTagDataRepo extends JpaRepository<TagData, Long>{
     List<TagData> findByDatasetIdAndSampleId(String datasetId, String sampleId);
     List<TagData> findByDatasetId(String datasetId);
+
+    List<TagData> findByDatasetIdAndSampleIdAndTaggerId(String datasetId, String sampleId, Long taggerId);
 }

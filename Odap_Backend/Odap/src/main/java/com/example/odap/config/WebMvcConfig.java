@@ -1,5 +1,6 @@
 package com.example.odap.config;
 
+import com.example.odap.Interceptor.AdminInterceptor;
 import com.example.odap.Interceptor.AuthenticationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +12,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private AuthenticationInterceptor authenticationInterceptor;
 
+    @Autowired
+    private AdminInterceptor adminInterceptor;
+
     @Override // 注册拦截器
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(adminInterceptor)
+                .addPathPatterns("/api/user_by_pages", "/api/del_user");
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/api/dataset/**"); // 配置需要进行身份验证的API路径
+
     }
 }

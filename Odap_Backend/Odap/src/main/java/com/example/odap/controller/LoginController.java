@@ -16,11 +16,17 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @RestController
 @RequestMapping("/api/user")
 public class LoginController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     private static final int CODE_SUCCESS = 200;
     private static final int CODE_FAILURE = 405;
 
@@ -31,7 +37,7 @@ public class LoginController {
     public ResponseEntity<Map<String, Object>> login(HttpServletRequest request, @RequestBody LoginForm loginForm) {
         Map<String, Object> response = new HashMap<>();
         User user = userService.findUserByName(loginForm.getUsername());
-        if (user == null || !user.getPassWord().equals(loginForm.getPassword())) {
+        if (user == null || !passwordEncoder.matches(loginForm.getPassword(), user.getPassWord())) {
             response.put("code", CODE_FAILURE);
             response.put("error_msg", MSG_FAILURE);
             response.put("data", null);
@@ -41,6 +47,7 @@ public class LoginController {
         // 将用户信息保存到会话，并设置会话的超时时间为10分钟
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
+        System.out.println(session.getAttribute("user"));
         session.setMaxInactiveInterval(10 * 60); // 10分钟
 
         response.put("code", CODE_SUCCESS);
