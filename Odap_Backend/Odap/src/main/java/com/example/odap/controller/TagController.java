@@ -1,4 +1,5 @@
 package com.example.odap.controller;
+import com.example.odap.entity.User;
 import com.example.odap.response.TagResponse;
 import com.example.odap.entity.TagData;
 import com.example.odap.repository.ImageTagDataRepo;
@@ -6,6 +7,7 @@ import com.example.odap.repository.VoiceDataRepository;
 import com.example.odap.request.TagForm;
 import com.example.odap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,11 +53,22 @@ public class TagController {
     @CrossOrigin
     @GetMapping("/tags")
     public ResponseEntity<Map<String, Object>> getTags(
+            HttpServletRequest httpRequest,
             @RequestParam("dataset_id") String datasetId,
             @RequestParam("sample_id") String sampleId
     ) {
-        List<TagData> imageDataList = imageTagDataRepo.findByDatasetIdAndSampleId(datasetId, sampleId);
+        User currentUser = userService.getCurrentUser(httpRequest);
+        List<TagData> imageDataList ;
         List<TagResponse> tagResponseList = new ArrayList<TagResponse>();
+        if (currentUser!=null && currentUser.getUserName().equals("admin")){
+            imageDataList = imageTagDataRepo.findByDatasetIdAndSampleId(datasetId, sampleId);
+        }
+        else if(currentUser!=null){
+            imageDataList=imageTagDataRepo.findByDatasetIdAndSampleIdAndTaggerId(datasetId,sampleId, currentUser.getId());
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new HashMap<>());
+        }
         for(TagData item: imageDataList){
             tagResponseList.add(new TagResponse(item));
         }

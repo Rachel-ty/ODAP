@@ -144,21 +144,28 @@ public class DatasetController {
             try (ZipInputStream zis = new ZipInputStream(new FileInputStream(serverFile))) {
                 ZipEntry zipEntry = zis.getNextEntry();
                 while (zipEntry != null) {
+                    String fName=zipEntry.getName();
+                    if (fName.endsWith(".DS_Store")){
+                        zipEntry=zis.getNextEntry();
+                        continue;
+                    }
                     File newFile = newFile(unzipDir, zipEntry);
-                    try (FileOutputStream fos = new FileOutputStream(newFile)) {
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while ((len = zis.read(buffer)) > 0) {
-                            fos.write(buffer, 0, len);
+                    if(!zipEntry.isDirectory()) {
+                        try (FileOutputStream fos = new FileOutputStream(newFile)) {
+                            byte[] buffer = new byte[1024];
+                            int len;
+                            while ((len = zis.read(buffer)) > 0) {
+                                fos.write(buffer, 0, len);
+                            }
                         }
-                    }
-                    if(sample_type.equals("图片")) {
-                        PictureData pictureData = new PictureData(dataset.getId(), newFile.getName(), newFile.getAbsolutePath());
-                        pictureDataRepository.save(pictureData);
-                    }
-                    else{ // 否则样本类型为语音
-                        VoiceData voiceData = new VoiceData(dataset.getId(), newFile.getName(), newFile.getAbsolutePath());
-                        voiceDataRepository.save(voiceData);
+
+                        if (sample_type.equals("图片")) {
+                            PictureData pictureData = new PictureData(dataset.getId(), newFile.getName(), newFile.getAbsolutePath());
+                            pictureDataRepository.save(pictureData);
+                        } else { // 否则样本类型为语音
+                            VoiceData voiceData = new VoiceData(dataset.getId(), newFile.getName(), newFile.getAbsolutePath());
+                            voiceDataRepository.save(voiceData);
+                        }
                     }
                     zipEntry = zis.getNextEntry();
                 }
@@ -322,7 +329,11 @@ public class DatasetController {
         if (!destFilePath.startsWith(destDirPath + File.separator)) {
             throw new IOException("Entry is outside of the target dir: " + zipEntry.getName());
         }
-
+        if (zipEntry.isDirectory()) {
+            destFile.mkdirs();
+        } else {
+            destFile.getParentFile().mkdirs();
+        }
         return destFile;
     }
 }
