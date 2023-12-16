@@ -28,7 +28,7 @@ public class RegisterController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUser(@RequestBody SignupForm signUpRequest) {
 
-        // 调用 UserService 的 register 方法进行用户注册
+        // call register method from UserService to register
         Map<String, Object> response = new HashMap<>();
         try {
             User user = userService.register(signUpRequest.getUsername(), signUpRequest.getPassword());

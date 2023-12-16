@@ -33,7 +33,7 @@ public class UserController {
         if(user!=null){
             return user;
         }
-        return new User("不存在", "123");
+        return new User("NotExist", "123");
     }
 
 }

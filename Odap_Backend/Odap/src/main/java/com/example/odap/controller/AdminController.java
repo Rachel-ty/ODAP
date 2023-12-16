@@ -32,10 +32,10 @@ public class AdminController {
             @RequestParam("page_size") int pageSize
     ) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
-        // 执行分页查询
+        // page request
         Page<User> userDataPage;
         userDataPage = userRepository.findAll(pageRequest);
-        // 构建响应数据
+        // response data
         List<User> userData = userDataPage.getContent();
         Map<String, Object> response = new HashMap<>();
         response.put("code", 200);

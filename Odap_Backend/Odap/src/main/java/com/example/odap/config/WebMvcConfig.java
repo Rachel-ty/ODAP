@@ -15,12 +15,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private AdminInterceptor adminInterceptor;
 
-    @Override // 注册拦截器
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminInterceptor)
-                .addPathPatterns("/api/user_by_pages", "/api/del_user");
+                .addPathPatterns("/api/user_by_pages", "/api/del_user"); // url that needs admin permission
         registry.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/api/dataset/**"); // 配置需要进行身份验证的API路径
+                .addPathPatterns("/api/dataset/**"); // url that needs authentication
 
     }
 }

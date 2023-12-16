@@ -208,7 +208,7 @@ const SamplePage = () => {
             Go Back
           </Button>
           <h1 style={{ textAlign: 'center', flex: 1 }}>Sample List</h1>
-          <h3 style={{ textAlign: 'center', flex: 1 }}>标注进度{tagProgress}%</h3>
+          <h3 style={{ textAlign: 'center', flex: 1 }}>Annotation Progress: {tagProgress}%</h3>
         </div>
             <Card>
               <Table dataSource={datasets} columns={typeIsText? columnT : columnIV} pagination={false} />

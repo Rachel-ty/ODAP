@@ -42,14 +42,14 @@ public class SampleController {
             @RequestParam("dataset_id") Long datasetId,
             @RequestParam("sample_type") String sampleType
     ) {
-        // 构建分页请求对象
-        if(sampleType.equals("图片")){
+        // create page request
+        if(sampleType.equals("picture")){
             System.out.println(1);
             PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
-            // 执行分页查询
+
             Page<PictureData> pictureDataPage;
             pictureDataPage = pictureDataRepository.findByDatasetId(datasetId, pageRequest);
-            // 构建响应数据
+
             List<PictureData> pictureDatas = pictureDataPage.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
@@ -57,7 +57,7 @@ public class SampleController {
             response.put("data", pictureDatas);
             return ResponseEntity.ok(response);
         }
-        else if(sampleType.equals("语音")){
+        else if(sampleType.equals("audio")){
             System.out.println(2);
             PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
             Page<VoiceData> voiceDataPage;
@@ -69,7 +69,7 @@ public class SampleController {
             response.put("data", voiceDatas);
             return ResponseEntity.ok(response);
         }
-        else{ //文本
+        else{  // text
             System.out.println(3);
             PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
             Page<TextData> textDataPage;
@@ -111,17 +111,16 @@ public class SampleController {
     ) {
         // 执行查询
         int count = 0;
-        if(sampleType.equals("图片")){
+        if(sampleType.equals("picture")){
             count = pictureDataRepository.countByDatasetId(datasetId);
         }
-        else if(sampleType.equals("文本")){
+        else if(sampleType.equals("text")){
             count = textDataRepository.countByDatasetId(datasetId);
         }
         else{
             count = voiceDataRepository.countByDatasetId(datasetId);
         }
 
-        // 构建响应数据
         Map<String, Object> response = new HashMap<>();
         response.put("code", 200);
         response.put("error_msg", "success");
@@ -136,7 +135,7 @@ public class SampleController {
             @RequestParam("sample_id") Long id,
             @RequestParam("sample_type") String sampleType
     ) throws IOException {
-        if(sampleType.equals("文本")){
+        if(sampleType.equals("text")){
             TextData textData = textDataRepository.findByDatasetIdAndId(datasetId, id);
             System.out.println(textData);
             if (textData != null) {
@@ -147,7 +146,7 @@ public class SampleController {
                 return ResponseEntity.notFound().build();
             }
         }
-        else if(sampleType.equals("语音")){
+        else if(sampleType.equals("audio")){
             VoiceData voiceData = voiceDataRepository.findByDatasetIdAndId(datasetId, id);
             if (voiceData != null) {
                 Path path = Paths.get(voiceData.getFilePath());

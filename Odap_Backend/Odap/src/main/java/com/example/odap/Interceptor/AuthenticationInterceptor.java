@@ -13,19 +13,18 @@ import java.net.HttpCookie;
 import java.util.HashMap;
 import java.util.Map;
 
-/* 一个拦截器，用于验证用户是否已登录
-* 在WebMvcConfig.java 配置类中配置了需要进行身份验证的API路径
+/*
+* An Interceptor to check whether user has logged in
 * */
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        // 如果用户未登录，返回错误响应
+        // if user do not login, return error_msg
         if (!isUserLoggedIn(request)) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 401);
-            //用户未登录，返回错误信息
             errorResponse.put("error_msg", "unauthorized user");
             errorResponse.put("data", null);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -34,17 +33,16 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        //每次请求都更新最后访问时间
+        // update last access time
         HttpSession session = request.getSession(false);
-        if(session!=null){
-            session.setAttribute("lastAccessTime",System.currentTimeMillis());
+        if(session!=null) {
+            session.setAttribute("lastAccessTime", System.currentTimeMillis());
         }
-        // 用户已登录，继续处理请求
         return true;
     }
 
     private boolean isUserLoggedIn(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // 获取会话，如果不存在则返回null
+        HttpSession session = request.getSession(false);
         if (session != null) {
             User user = (User) session.getAttribute("user");
             return user != null;
