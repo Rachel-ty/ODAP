@@ -11,7 +11,6 @@ function Login({ showModal }) {
     useEffect(() => {
 
         if (document.cookie !== '') {
-          // 如果cookie不为空，则导航到/success界面
           navigate('/index');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

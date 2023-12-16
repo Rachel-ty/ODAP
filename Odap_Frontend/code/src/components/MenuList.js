@@ -11,8 +11,7 @@ const MenuComponent = () => {
   const location = useLocation();
 
   const handleLogout = () => {
-    // 执行注销操作，清除cookie等
-    // 这里只是示例，实际操作根据你的需求来实现
+    // clear cookie for logout
     cookie.remove('user');
     cookie.remove('JSESSIONID');
     navigate('/login');
@@ -26,13 +25,13 @@ const MenuComponent = () => {
           <Link to="/index">{cookie.load('user')}</Link>
         </Menu.Item>
         <Menu.Item key="/upload" icon={<UploadOutlined />}>
-          <Link to="/upload">上传数据集</Link>
+          <Link to="/upload">Dataset Upload</Link>
         </Menu.Item>
         <Menu.Item key="/manage" icon={<FolderOutlined />}>
-          <Link to="/manage">管理数据集</Link>
+          <Link to="/manage">Dataset Management</Link>
         </Menu.Item>
         <Menu.Item key="/user_manage" icon={<FolderOutlined />}>
-          <Link to="/user_manage">用户管理</Link>
+          <Link to="/user_manage">User Management</Link>
         </Menu.Item>
       </Menu>
       <Button

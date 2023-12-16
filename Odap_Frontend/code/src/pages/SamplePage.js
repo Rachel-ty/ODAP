@@ -12,13 +12,13 @@ const SamplePage = () => {
   const datasetId = searchParams.get('dataset_id');
   const sampleType = searchParams.get('sample_type');
   const [datasets, setDatasets] = useState([]);
-  const [total, setTotal] = useState(0); // 总的样本数
-  const [tagProgress,setTagProgress]=useState(0); //已标记样本比例
+  const [total, setTotal] = useState(0); // all samples
+  const [tagProgress,setTagProgress]=useState(0); // the portion of salmples that have been tagged
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  const typeIsText = sampleType == "文本";
-  const typeIsImage = sampleType == "图片";
-  const typeIsAudio = sampleType == "语音";
+  const typeIsText = sampleType == "text";
+  const typeIsImage = sampleType == "picture";
+  const typeIsAudio = sampleType == "audio";
   const navigate = useNavigate();
 
   const handleNameClick = (record) => {
@@ -121,22 +121,22 @@ const SamplePage = () => {
     // try {
     //   const response = await axios.delete(`http://localhost:8080/api/dataset/${id}`, {
     //     headers: {
-    //       'Content-Type': undefined, // 或者删除该行
+    //       'Content-Type': undefined, 
     //     },
     //   });
     //   const { code } = response.data;
     //   if (code === 200) {
-    //     message.success('删除成功', 1, fetchData);
+    //     message.success('success', 1, fetchData);
     //   } else {
-    //     message.error('删除失败');
+    //     message.error('fail to delete');
     //   }
     // } catch (error) {
     //   console.error(error);
     // }
-    message.error('您不是管理员', 1);
+    message.error('You are not allowed to delete the sample', 1);
   };
 
-  const columnIV = [ // 用于图片或者语音数据
+  const columnIV = [ // for picture and audio data
     {
       title: 'Name',
       dataIndex: 'name',
@@ -172,7 +172,7 @@ const SamplePage = () => {
     },
   ];
 
-  const columnT = [ // 用于文本数据
+  const columnT = [ // for text data
     {
       title: 'Content',
       dataIndex: 'content',
