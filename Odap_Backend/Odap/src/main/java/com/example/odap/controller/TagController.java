@@ -86,7 +86,7 @@ public class TagController {
             @PathVariable("id") String tagId
     ) {
         System.out.println(1);
-        TagData imageData = imageTagDataRepo.findById(Long.parseLong(tagId)).orElse(null);
+        TagData imageData = imageTagDataRepo.findById(Long.parseLong(tagId));
         if(imageData == null){
             Map<String, Object> response = new HashMap<>();
             response.put("code", 404);

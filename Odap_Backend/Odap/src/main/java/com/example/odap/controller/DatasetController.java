@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -188,7 +189,7 @@ public class DatasetController {
             @RequestParam(value = "publisher_id", required = false) Long publisherId
     ) {
         // 构建分页请求对象
-        PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
+        Pageable pageRequest = PageRequest.of(pageNum - 1, pageSize);
 
         // 执行分页查询
         Page<Dataset> datasetPage;
@@ -219,7 +220,7 @@ public class DatasetController {
                                                              @RequestParam String sample_type, @RequestParam String tag_type,
                                                              @RequestParam("file") MultipartFile file) throws IOException {
         // 根据id查询数据库中的数据集
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
@@ -271,7 +272,7 @@ public class DatasetController {
     @GetMapping ("/del_dataset/{id}")
     public ResponseEntity<Map<String, Object>> deleteDataset(HttpServletRequest request, @PathVariable("id") String id) {
         // 根据id查询数据库中的数据集
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
@@ -279,7 +280,7 @@ public class DatasetController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if(!user.getUserName().equals("root")){ // 验证是否是管理员用户
+        if(!user.getUserName().equals("admin")){ // 验证是否是管理员用户
             Map<String, Object> response = new HashMap<>();
             response.put("code", 405);
             response.put("error_msg", "Only root members can delete dataset!");
@@ -305,7 +306,7 @@ public class DatasetController {
     @GetMapping("/dataset/{id}")
     public ResponseEntity<Map<String, Object>> getDataset(@PathVariable("id") String id) {
         // 根据id查询数据库中的数据集
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
