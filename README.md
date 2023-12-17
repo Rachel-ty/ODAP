@@ -10,12 +10,12 @@
 │   ├── Interceptor             : Interceptor that checks admin and authentication status
 │   ├── request                 : data request frontend sends to backend
 │   ├── response                : data response backend sends to frontend
-|   ├── service									: User services, including password encrypt
-|   ├── resources								: application properties
+|   ├── service				    : User services, including password encrypt
+|   ├── resources			    : application properties
 ├── frontend/code/src           : frontend react application
-│   ├── components          		: components on webpage
-│   ├── pages              			: components of each page 
-├── datasets										: sample datasets we provide 
+│   ├── components              : components on webpage
+│   ├── pages              		: components of each page 
+├── datasets				    : sample datasets we provide 
 ```
 
 ## How to run the project
