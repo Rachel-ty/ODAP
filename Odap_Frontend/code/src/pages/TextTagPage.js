@@ -64,10 +64,10 @@ const TextTagPage = () => {
       const response = await axios.get(`http://localhost:8080/api/del_tag/${tagData.tag_id}`, { withCredentials: true });
       const { code } = response.data;
       if (code === 200) {
-        message.success('删除成功', 1);
+        message.success('success', 1);
         fetchTagList();
       } else {
-        message.error('删除失败');
+        message.error('fail');
       }
     } catch (error) {
       console.error(error);
@@ -83,7 +83,7 @@ const TextTagPage = () => {
               <Button type="primary" onClick={handleGoBack} style={{ margin: '10px' }}>
                 Go Back
               </Button>
-              <h1 style={{ textAlign: 'center', flex: 1 }}>文本数据标注</h1>
+              <h1 style={{ textAlign: 'center', flex: 1 }}>Text Annotation</h1>
             </div>
 
             <Card title="Sample Content">
@@ -94,10 +94,10 @@ const TextTagPage = () => {
 
             <Card title="Add Tag" style={{ marginTop: '20px' }}>
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Input type="text" name="start" placeholder="开始位置" style={{ marginBottom: '10px', width: '50%' }} />
-                <Input type="text" name="end" placeholder="终止位置" style={{ marginBottom: '10px', width: '50%' }} />
-                <Input type="text" name="label" placeholder="标签" style={{ marginBottom: '10px', width: '50%' }} />
-                <Button type="primary" htmlType="submit">提交</Button>
+                <Input type="text" name="start" placeholder="Start" style={{ marginBottom: '10px', width: '50%' }} />
+                <Input type="text" name="end" placeholder="End" style={{ marginBottom: '10px', width: '50%' }} />
+                <Input type="text" name="label" placeholder="Label" style={{ marginBottom: '10px', width: '50%' }} />
+                <Button type="primary" htmlType="submit">Submit</Button>
               </form>
             </Card>
 
@@ -105,9 +105,9 @@ const TextTagPage = () => {
               <table style={{ borderSpacing: '10px', width: '100%' }}>
                 <thead>
                 <tr>
-                  <th style={{ textAlign: 'center' }}>开始位置</th>
-                  <th style={{ textAlign: 'center' }}>结束位置</th>
-                  <th style={{ textAlign: 'center' }}>标签</th>
+                  <th style={{ textAlign: 'center' }}>Start</th>
+                  <th style={{ textAlign: 'center' }}>End</th>
+                  <th style={{ textAlign: 'center' }}>Label</th>
                   <th style={{ textAlign: 'center' }}>Action</th>
                 </tr>
                 </thead>

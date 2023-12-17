@@ -28,15 +28,18 @@ public class User implements Serializable {
     private String userName;
     @Column(name = "password")
     private String passWord;
+    @Column(name="salt")
+    private String salt;
 
     public User() {
         super();
     }
 
-    public User(String userName, String passWord) {
+    public User(String userName, String passWord, String salt) {
         super();
         this.userName = userName;
         this.passWord = passWord;
+        this.salt=salt;
     }
 
     public Long getId() {

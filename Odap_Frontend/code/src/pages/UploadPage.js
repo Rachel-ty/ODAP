@@ -28,10 +28,10 @@ function FileUploadForm() {
           const { code } = data;
           if (code === 200) {
             message.success({
-              content: '上传成功',
-              duration: 1, // 设置消息显示持续时间为1秒
+              content: 'upload successfully',
+              duration: 1, // notification timeout
               onClose: () => {
-                form.resetFields(); // 清空表单数据
+                form.resetFields(); // clear form
               },
             });
           }
@@ -56,31 +56,31 @@ function FileUploadForm() {
           }}
         >
           <div style={{ textAlign: 'center' }}>
-            <h1>上传数据集</h1>
+            <h1>Upload Dataset</h1>
           </div>
           <Card style={{ width: 400 }}>
             <Form form={form} onFinish={handleSubmit}>
-              <Form.Item label="文件" name="file">
+              <Form.Item label="File" name="file">
                 <Upload onChange={handleFileChange}>
                   <Button>Select File</Button>
                 </Upload>
               </Form.Item>
-              <Form.Item label="标签类型" name="tagType">
+              <Form.Item label="Type of Label" name="tagType">
                 <Input />
               </Form.Item>
-              <Form.Item label="样本类型" name="sampleType">
+              <Form.Item label="Type of Sample" name="sampleType">
                 <Select>
-                  <Select.Option value="文本">文本</Select.Option>
-                  <Select.Option value="语音">语音</Select.Option>
-                  <Select.Option value="图片">图片</Select.Option>
+                  <Select.Option value="text">Text</Select.Option>
+                  <Select.Option value="audio">Audio</Select.Option>
+                  <Select.Option value="picture">Picture</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="描述" name="desc">
+              <Form.Item label="Description" name="desc">
                 <Input />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
-                  上传
+                  upload
                 </Button>
               </Form.Item>
             </Form>

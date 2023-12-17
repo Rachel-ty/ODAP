@@ -123,9 +123,9 @@ const TagPage = () => {
       const response = await axios.get(`http://localhost:8080/api/del_tag/${id}`, { withCredentials: true });
       const { code } = response.data;
       if (code === 200) {
-        message.success('删除成功', 1, fetchTagList);
+        message.success('success', 1, fetchTagList);
       } else {
-        message.error('删除失败');
+        message.error('fail to delete');
       }
     } catch (error) {
       console.error(error);
@@ -207,16 +207,16 @@ const TagPage = () => {
                   autoFocus
                   onBlur={(e) => {
                     handleTagSubmit(e.target.value);
-                    setInputTag(false); // 将输入框隐藏
+                    setInputTag(false); // hide the input box
                   }}
                   onPressEnter={(e) => {
                     handleTagSubmit(e.target.value);
-                    setInputTag(false); // 将输入框隐藏
+                    setInputTag(false); // hide the input box
                   }}
                   style={{
                     position: 'absolute',
                     left: `${Math.min(rectangleStart.x, rectangleEnd.x)}px`,
-                    top: `${Math.min(rectangleStart.y, rectangleEnd.y)}px`, // 输入框位于矩形下方
+                    top: `${Math.min(rectangleStart.y, rectangleEnd.y)}px`, // place the input box under the rectangle
                     width: '200px',
                   }}
                 />
@@ -242,8 +242,8 @@ const TagPage = () => {
   style={{
     backgroundColor: '#ff0000',
     color: '#ffffff',
-    padding: '2px 4px', // 调整按钮的内边距
-    fontSize: '5px', // 调整按钮的字体大小
+    padding: '2px 4px', 
+    fontSize: '5px',
   }}
   onClick={() => handleDelete(tagItem.tag_id)}
 >
