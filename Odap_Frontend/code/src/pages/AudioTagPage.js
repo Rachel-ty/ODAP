@@ -63,7 +63,7 @@ const AudioTagPage = () => {
   };
 
   useEffect(() => {
-    setIsPlaying(true); // 设置初始状态为播放
+    setIsPlaying(true); // set isPlaying to true to play audio automatically
   }, []);
 
   const fetchTagList = async () => {
@@ -108,10 +108,10 @@ const AudioTagPage = () => {
       const response = await axios.get(`http://localhost:8080/api/del_tag/${tagData.tag_id}`, { withCredentials: true });
       const { code } = response.data;
       if (code === 200) {
-        message.success('删除成功', 1);
+        message.success('successfully delete', 1);
         fetchTagList();
       } else {
-        message.error('删除失败');
+        message.error('fail to delete');
       }
     } catch (error) {
       console.error(error);
@@ -127,7 +127,7 @@ const AudioTagPage = () => {
               <Button type="primary" onClick={handleGoBack} style={{ marginRight: '10px' }}>
                 Go Back
               </Button>
-              <h1 style={{ textAlign: 'center', flex: 1 }}>{sampleName}标注</h1>
+              <h1 style={{ textAlign: 'center', flex: 1 }}>{sampleName}annotate</h1>
             </div>
           <Card>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
@@ -140,19 +140,19 @@ const AudioTagPage = () => {
             </div>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Input type="text" name="start" placeholder="开始位置" style={{ marginBottom: '10px', width: '50%' }} />
-              <Input type="text" name="end" placeholder="终止位置" style={{ marginBottom: '10px', width: '50%' }} />
-              <Input type="text" name="label" placeholder="标签" style={{ marginBottom: '10px', width: '50%' }} />
-              <Button type="primary" htmlType="submit">提交</Button>
+              <Input type="text" name="start" placeholder="Start" style={{ marginBottom: '10px', width: '50%' }} />
+              <Input type="text" name="end" placeholder="End" style={{ marginBottom: '10px', width: '50%' }} />
+              <Input type="text" name="label" placeholder="Label" style={{ marginBottom: '10px', width: '50%' }} />
+              <Button type="primary" htmlType="submit">Submit</Button>
             </form>
           </Card>
           <Card title="Tag List">
               <table style={{ borderSpacing: '10px', width: '100%' }}>
                 <thead>
                 <tr>
-                  <th style={{ textAlign: 'center' }}>开始位置</th>
-                  <th style={{ textAlign: 'center' }}>结束位置</th>
-                  <th style={{ textAlign: 'center' }}>标签</th>
+                  <th style={{ textAlign: 'center' }}>Start</th>
+                  <th style={{ textAlign: 'center' }}>End</th>
+                  <th style={{ textAlign: 'center' }}>Label</th>
                   <th style={{ textAlign: 'center' }}>Action</th>
                 </tr>
                 </thead>

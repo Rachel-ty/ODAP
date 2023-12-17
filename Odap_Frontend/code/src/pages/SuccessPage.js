@@ -28,16 +28,15 @@ const SuccessPage = () => {
 
                         <Carousel autoplay autoplaySpeed={4000}>
                             <div>
-                                <h3>复旦大学计算机科学与技术学院</h3>
+                                <h3>Intro to Java</h3>
                             </div>
                             <div>
-                                <h3>移动互联网课程项目</h3>
+                                <h3>Final Project</h3>
                             </div>
                             <div>
-                                <h3>在线数据标注平台</h3>
+                                <h3>Data Annotation Platform</h3>
                             </div>
                         </Carousel>
-                        {/*<img src="/logo-1.png" alt="Logo" style={{ width: '500px', marginBottom: '20px' }} />*/}
                         <Steps current={0}>
                             <Step title="Login" description="You've logged in." />
                             <Step title="Upload" description="Upload your dataset." />

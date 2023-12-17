@@ -59,10 +59,10 @@ const UserManagePage = () => {
             const code = response.status;
             if (code === 200) {
                 console.log(response);
-                message.success('删除成功');
+                message.success('success');
                 fetchData();
             } else {
-                message.error("删除失败", code);
+                message.error("fail to delete user", code);
                 alert(code);
             }
         } catch (error) {
@@ -101,7 +101,7 @@ const UserManagePage = () => {
             <Button type="primary" onClick={handleGoBack} style={{ margin: '10px' }}>
               Go Back
             </Button>
-            <h1 style={{ textAlign: 'center', flex: 1 }}>用户列表</h1>
+            <h1 style={{ textAlign: 'center', flex: 1 }}>User List</h1>
               </div>
               <Card>
                 <Table dataSource={users} columns={columns} pagination={false} />

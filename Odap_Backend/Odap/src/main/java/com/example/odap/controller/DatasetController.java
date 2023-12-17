@@ -73,28 +73,28 @@ public class DatasetController {
             @RequestParam String tag_type,
             @RequestParam("file") MultipartFile file) throws IOException {
 
-        if (!(sample_type.equals("语音") || sample_type.equals("图片") || sample_type.equals("文本"))) {
+        if (!(sample_type.equals("voice") || sample_type.equals("picture") || sample_type.equals("text"))) {
             Map<String, Object> response = new HashMap<>();
-            response.put("error_msg", "不支持的数据集类型！目前仅支持图片、语音、文本"); // 设置错误信息
+            response.put("error_msg", "Only support voice, picture or text data");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         }
 
-        //将文件存储在固定目录下，并将路径赋给dataset
+        // save file to the give path
         File dir = new File(uploadDir);
         if (!dir.exists()) {
             dir.mkdirs();
         }
 
-        //生成一个唯一的文件名
+        // generate a unique file name
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         File serverFile = new File(dir.getAbsolutePath() + File.separator + fileName);
 
-        //将文件存储在固定目录下
+        // save
         try (OutputStream os = Files.newOutputStream(serverFile.toPath())) {
             os.write(file.getBytes());
         }
 
-        //在数据集表中加入数据集的记录
+        // create a record and save to database
         Dataset dataset = new Dataset();
         dataset.setDatasetName(file.getOriginalFilename());
         long id = userService.getCurrentUserId(httpRequest);
@@ -107,7 +107,7 @@ public class DatasetController {
 
         double sizeInBytes = file.getSize();
         double sizeInMB = sizeInBytes / (1024 * 1024);
-        //保留两位小数
+        // round
         sizeInMB = (double) Math.round(sizeInMB * 100) / 100;
 
         dataset.setSampleSize(sizeInMB);
@@ -118,14 +118,14 @@ public class DatasetController {
         datasetRepository.save(dataset);
         DatasetResponse datasetResponse = new DatasetResponse(dataset);
 
-        //对文本数据集进行解析和存储
-        if(sample_type.equals("文本")){ //文本数据需要特别处理，语音数据和图片数据类似
+        // deal with different format of data
+        if(sample_type.equals("text")) {  // text format process
             String filePath = serverFile.getAbsolutePath();
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
                 String line;
                 ObjectMapper mapper = new ObjectMapper();
                 while ((line = reader.readLine()) != null) {
-                    // 解析每一行的 JSON 数据
+                    // analyse every line of a jsonline file
                     String jsonObject = mapper.readValue(line, Object.class).toString();
                     System.out.println(jsonObject);
                     TextData textData = new TextData(dataset.getId(), jsonObject);
@@ -133,9 +133,8 @@ public class DatasetController {
                 }
             }
         }
-        //对语音和图片数据集进行解压并存储
-        else {
-            // 开始解压文件，并将数据加入对应语音/图像数据表
+        else { // pic or voice data
+            // unzip and save
             String unzipDirPath = dir.getAbsolutePath() + File.separator + "unzip" + File.separator + fileName;
             File unzipDir = new File(unzipDirPath);
             if (!unzipDir.exists()) {
@@ -146,7 +145,7 @@ public class DatasetController {
                 ZipEntry zipEntry = zis.getNextEntry();
                 while (zipEntry != null) {
                     String fName=zipEntry.getName();
-                    if (fName.endsWith(".DS_Store")){
+                    if (fName.endsWith(".DS_Store")){  // macos problem
                         zipEntry=zis.getNextEntry();
                         continue;
                     }
@@ -159,11 +158,14 @@ public class DatasetController {
                                 fos.write(buffer, 0, len);
                             }
                         }
-
-                        if (sample_type.equals("图片")) {
+                        if (sample_type.equals("picture")) {
+                            if (newFile.getName().charAt(0) == '.') {  // macos problem
+                                zipEntry = zis.getNextEntry();
+                                continue;
+                            }
                             PictureData pictureData = new PictureData(dataset.getId(), newFile.getName(), newFile.getAbsolutePath());
                             pictureDataRepository.save(pictureData);
-                        } else { // 否则样本类型为语音
+                        } else {  // otherwise, sample should be voice
                             VoiceData voiceData = new VoiceData(dataset.getId(), newFile.getName(), newFile.getAbsolutePath());
                             voiceDataRepository.save(voiceData);
                         }
@@ -188,10 +190,9 @@ public class DatasetController {
             @RequestParam("page_size") int pageSize,
             @RequestParam(value = "publisher_id", required = false) Long publisherId
     ) {
-        // 构建分页请求对象
-        Pageable pageRequest = PageRequest.of(pageNum - 1, pageSize);
+        // Create page request
+        PageRequest pageRequest = PageRequest.of(pageNum - 1, pageSize);
 
-        // 执行分页查询
         Page<Dataset> datasetPage;
         if (publisherId != null) {
             datasetPage = datasetRepository.findByPublisherId(publisherId, pageRequest);
@@ -199,9 +200,8 @@ public class DatasetController {
             datasetPage = datasetRepository.findAll(pageRequest);
         }
 
-        // 构建响应数据
         List<Dataset> datasets = datasetPage.getContent();
-        // 将 Dataset 转换为 DatasetResponse 自定义返回体中展示的参数
+        // convert datasets to dataset responses
         List<DatasetResponse> datasetResponses = new ArrayList<>();
         for (Dataset dataset : datasets) {
             datasetResponses.add(new DatasetResponse(dataset));
@@ -219,21 +219,19 @@ public class DatasetController {
     public ResponseEntity<Map<String, Object>> updateDataset(@PathVariable("id") String id, @RequestParam String desc,
                                                              @RequestParam String sample_type, @RequestParam String tag_type,
                                                              @RequestParam("file") MultipartFile file) throws IOException {
-        // 根据id查询数据库中的数据集
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // 删除原有文件
+        // delete existing file in the path
         File oldFile = new File(dataset.getFilePath());
         if (oldFile.exists()) {
             oldFile.delete();
         }
 
-        // 保存新上传的文件到指定目录下
+        // save uploaded file
 
-        // String uploadDir = "/Users/zhengyuanze/upload_data";
         File dir = new File(uploadDir);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -246,7 +244,6 @@ public class DatasetController {
             os.write(file.getBytes());
         }
 
-        // 更新数据集的属性
         dataset.setDescription(desc);
         dataset.setSampleType(sample_type);
         dataset.setTagType(tag_type);
@@ -254,11 +251,9 @@ public class DatasetController {
 
         double sizeInBytes = file.getSize();
         double sizeInMB = sizeInBytes / (1024 * 1024);
-        //保留两位小数
         sizeInMB = (double) Math.round(sizeInMB * 100) / 100;
         dataset.setSampleSize(sizeInMB);
 
-        // 保存更新后的数据集到数据库
         Dataset updatedDataset = datasetRepository.save(dataset);
         Map<String, Object> response = new HashMap<>();
         response.put("code", 200);
@@ -271,8 +266,7 @@ public class DatasetController {
     @CrossOrigin
     @GetMapping ("/del_dataset/{id}")
     public ResponseEntity<Map<String, Object>> deleteDataset(HttpServletRequest request, @PathVariable("id") String id) {
-        // 根据id查询数据库中的数据集
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
@@ -280,7 +274,7 @@ public class DatasetController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if(!user.getUserName().equals("admin")){ // 验证是否是管理员用户
+        if(!user.getUserName().equals("root")){ // check if user is root
             Map<String, Object> response = new HashMap<>();
             response.put("code", 405);
             response.put("error_msg", "Only root members can delete dataset!");
@@ -294,7 +288,6 @@ public class DatasetController {
         }
         datasetRepository.delete(dataset);
 
-        // 构建响应数据
         Map<String, Object> response = new HashMap<>();
         response.put("code", 200);
         response.put("error_msg", "success");
@@ -305,13 +298,11 @@ public class DatasetController {
 
     @GetMapping("/dataset/{id}")
     public ResponseEntity<Map<String, Object>> getDataset(@PathVariable("id") String id) {
-        // 根据id查询数据库中的数据集
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // 构建响应数据
         Map<String, Object> response = new HashMap<>();
         response.put("code", 200);
         response.put("error_msg", "success");

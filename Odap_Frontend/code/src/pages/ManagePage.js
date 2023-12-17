@@ -68,9 +68,9 @@ const ManagePage = () => {
       const response = await axios.get(`http://localhost:8080/api/del_dataset/${id}`, { withCredentials: true });
       const { code } = response.data;
       if (code === 200) {
-        message.success('删除成功', 1, fetchData);
+        message.success('success', 1, fetchData);
       } else {
-        message.error('删除失败');
+        message.error('fail to delete');
       }
     } catch (error) {
       console.error(error);

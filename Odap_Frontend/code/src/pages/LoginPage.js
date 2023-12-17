@@ -26,7 +26,6 @@ const LoginPage = () => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '90vh' }}>
-            <img src="/logo-1.png" alt="Logo" style={{ width: '500px', marginBottom: '20px' }} />
             <Card style={{ width: 500 }}>
                 <h2>Login</h2>
                 <LoginForm onLogin={handleLogin} showModal={showModal} />

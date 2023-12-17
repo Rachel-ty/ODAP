@@ -19,14 +19,12 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Override
     public User register(String userName, String password) {
-        // 检查用户名是否已经存在
         if (userRepository.existsByUserName(userName)){
-            throw new UserRegistrationException("用户名已存在");
+            throw new UserRegistrationException("user name exists!");
         }
-        // 创建一个新用户对象
         String encodedPassword = passwordEncoder.encode(password);
         User user = new User(userName, encodedPassword);
-        // 将新用户对象保存到数据库中
+
         return userRepository.save(user);
     }
 

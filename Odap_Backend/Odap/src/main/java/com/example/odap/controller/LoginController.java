@@ -44,11 +44,11 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 
-        // 将用户信息保存到会话，并设置会话的超时时间为10分钟
+        // keep user info in session and set timeout time to be 30min
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
         System.out.println(session.getAttribute("user"));
-        session.setMaxInactiveInterval(10 * 60); // 10分钟
+        session.setMaxInactiveInterval(30 * 60);
 
         response.put("code", CODE_SUCCESS);
         response.put("error_msg", MSG_SUCCESS);
