@@ -27,7 +27,7 @@
 
 ##### Step 2: Fill in the MySQL database configure information
 
-remember to create a database for our project. You don't need to create any tables. Hibernate will do the work.
+Remember to create a database for our project. You don't need to create any tables. Hibernate will do the work.
 
 ```shell
 spring.datasource.url=jdbc:mysql://localhost:3306/$your_DB_name$
@@ -78,4 +78,7 @@ Second, we implemented interceptors to enhance the security of platform data, on
 
 #### 3. Database 
 
-For the implementation of database operations, we initially adopted the Hibernate provided by the Spring framework to automatically create tables, and utilized Spring Data JPA to generate CRUD methods . This is a common implementation practice. However, as professor specified on the evening of December 14th that we are required to manually write database queries, we attempted to change all database operations to <Insert Specific Implementation>, while retaining only the table creation feature of Hibernate. You can refer to our `repository` folder to see the implementation.
+For the implementation of database operations, we initially adopted the Hibernate provided by the Spring framework to automatically create tables, and utilized Spring Data JPA to generate CRUD methods . This is a common implementation practice. However, as professor specified that we are required to manually write database queries, we **implement all database operations using JDBC and carefully designed SQL statements**, while retaining only the table creation feature of Hibernate. You can refer to our `repository` folder to see the implementation.
+
+#### 4. Interface
+We implement the user-friendly interface using react and javascript. Though the interface is not implemented with Swing, react provides more flexible design and more styles. We didn't realize until we completed the frontend implementation that it wouldn't meet the requirements for advanced topics. But we sill mentioned it because it accounts for a significant portion of our workload.
