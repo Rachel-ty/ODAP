@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Setter
 public class Dataset {
     @Id
-    @GeneratedValue
     private Long id;
     @Column(name = "dataset_name")
     private String datasetName;

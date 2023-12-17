@@ -30,10 +30,9 @@ public class UserController {
     @ResponseBody
     public User getByUserName(String userName) {
         User user = userRepository.findByUserName(userName);
-        if(user!=null){
+
             return user;
-        }
-        return new User("NotExist", "123");
+
     }
 
 }

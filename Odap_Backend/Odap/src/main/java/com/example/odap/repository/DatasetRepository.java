@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -20,11 +21,14 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class DatasetRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private final AtomicLong idCounter = new AtomicLong(20);
 
     private final RowMapper<Dataset> rowMapper=(rs,rowNum)->{
         Dataset dataset=new Dataset();
@@ -45,50 +49,30 @@ public class DatasetRepository {
     }
 
     public Dataset save(Dataset dataset) {
-        if (dataset.getId() == null) {
-            // Insert a new dataset
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            String sql = "INSERT INTO dataset (dataset_name, publisher_id, pub_time, description, sample_type, sample_size, tag_type, file_path) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, dataset.getDatasetName());
-                ps.setLong(2, dataset.getPublisherId());
-                ps.setString(3, dataset.getPubTime());
-                ps.setString(4, dataset.getDescription());
-                ps.setString(5, dataset.getSampleType());
-                ps.setDouble(6, dataset.getSampleSize());
-                ps.setString(7, dataset.getTagType());
-                ps.setString(8, dataset.getFilePath());
-                return ps;
-            }, keyHolder);
+        long uniqueID = idCounter.incrementAndGet();
+        dataset.setId(uniqueID);
+        // Use PreparedStatementCreator to specify the generated keys column
+        PreparedStatementCreator psc = connection -> {
+            String sql = "INSERT INTO dataset (id, dataset_name, publisher_id, pub_time, description, sample_type, sample_size, tag_type, file_path) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setLong(1, dataset.getId());
+            ps.setString(2, dataset.getDatasetName());
+            ps.setLong(3, dataset.getPublisherId());
+            ps.setString(4, dataset.getPubTime());
+            ps.setString(5, dataset.getDescription());
+            ps.setString(6, dataset.getSampleType());
+            ps.setDouble(7, dataset.getSampleSize());
+            ps.setString(8, dataset.getTagType());
+            ps.setString(9, dataset.getFilePath());
+            return ps;
+        };
 
-            // Set the generated ID back to the dataset
-            Long generatedId = (Long) keyHolder.getKeys().get("id");
-            dataset.setId(generatedId);
+        jdbcTemplate.update(psc);
 
-            // Return the updated dataset
-            return dataset;
-        } else {
-            // Update an existing dataset
-            String sql = "UPDATE dataset SET dataset_name = ?, publisher_id = ?, pub_time = ?, description = ?, " +
-                    "sample_type = ?, sample_size = ?, tag_type = ?, file_path = ? WHERE id = ?";
-            jdbcTemplate.update(
-                    sql,
-                    dataset.getDatasetName(),
-                    dataset.getPublisherId(),
-                    dataset.getPubTime(),
-                    dataset.getDescription(),
-                    dataset.getSampleType(),
-                    dataset.getSampleSize(),
-                    dataset.getTagType(),
-                    dataset.getFilePath(),
-                    dataset.getId());
-
-            // Return the updated dataset
-            return dataset;
-        }
+        return dataset;
     }
+
 
     public Page<Dataset> findAll(Pageable pageable) {
         String sql = "SELECT * FROM dataset LIMIT ? OFFSET ?";

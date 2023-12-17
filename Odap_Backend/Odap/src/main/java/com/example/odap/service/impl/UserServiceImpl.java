@@ -10,20 +10,20 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.odap.encode.*;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
     @Override
     public User register(String userName, String password) {
         if (userRepository.existsByUserName(userName)){
             throw new UserRegistrationException("user name exists!");
         }
-        String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(userName, encodedPassword);
+        String salt = CustomPasswordEncoder.getSalt();
+        String encodedPassword = CustomPasswordEncoder.encrypt(password, salt);
+        User user = new User(userName, encodedPassword,salt);
 
         return userRepository.save(user);
     }

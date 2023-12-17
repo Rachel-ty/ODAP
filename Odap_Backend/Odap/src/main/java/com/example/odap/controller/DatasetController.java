@@ -73,7 +73,7 @@ public class DatasetController {
             @RequestParam String tag_type,
             @RequestParam("file") MultipartFile file) throws IOException {
 
-        if (!(sample_type.equals("voice") || sample_type.equals("picture") || sample_type.equals("text"))) {
+        if (!(sample_type.equals("audio") || sample_type.equals("picture") || sample_type.equals("text"))) {
             Map<String, Object> response = new HashMap<>();
             response.put("error_msg", "Only support voice, picture or text data");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
@@ -219,7 +219,7 @@ public class DatasetController {
     public ResponseEntity<Map<String, Object>> updateDataset(@PathVariable("id") String id, @RequestParam String desc,
                                                              @RequestParam String sample_type, @RequestParam String tag_type,
                                                              @RequestParam("file") MultipartFile file) throws IOException {
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
@@ -266,7 +266,7 @@ public class DatasetController {
     @CrossOrigin
     @GetMapping ("/del_dataset/{id}")
     public ResponseEntity<Map<String, Object>> deleteDataset(HttpServletRequest request, @PathVariable("id") String id) {
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }
@@ -298,7 +298,7 @@ public class DatasetController {
 
     @GetMapping("/dataset/{id}")
     public ResponseEntity<Map<String, Object>> getDataset(@PathVariable("id") String id) {
-        Dataset dataset = datasetRepository.findById(Long.valueOf(id)).orElse(null);
+        Dataset dataset = datasetRepository.findById(Long.valueOf(id));
         if (dataset == null) {
             return ResponseEntity.notFound().build();
         }

@@ -16,20 +16,20 @@ public class ImageTagDataRepo {
     private JdbcTemplate jdbcTemplate;
 
     public List<TagData> findByDatasetIdAndSampleId(String datasetId, String sampleId) {
-        String sql = "SELECT * FROM TagData WHERE dataset_id = ? AND sample_id = ?";
+        String sql = "SELECT * FROM image_data WHERE dataset_id = ? AND sample_id = ?";
         return jdbcTemplate.query(sql, new Object[]{datasetId, sampleId}, new BeanPropertyRowMapper<>(TagData.class));
     }
     public List<TagData> findByDatasetId(String datasetId) {
-        String sql = "SELECT * FROM TagData WHERE dataset_id = ?";
+        String sql = "SELECT * FROM image_data WHERE dataset_id = ?";
         return jdbcTemplate.query(sql, new Object[]{datasetId}, new BeanPropertyRowMapper<>(TagData.class));
     }
 
     public List<TagData> findByDatasetIdAndSampleIdAndTaggerId(String datasetId, String sampleId, Long taggerId) {
-        String sql = "SELECT * FROM TagData WHERE dataset_id = ? AND sample_id = ? AND tagger_id = ?";
+        String sql = "SELECT * FROM image_data WHERE dataset_id = ? AND sample_id = ? AND tagger_id = ?";
         return jdbcTemplate.query(sql, new Object[]{datasetId, sampleId, taggerId}, new BeanPropertyRowMapper<>(TagData.class));
     }
     public void save(TagData tagData) {
-        String sql = "INSERT INTO TagData (dataset_id, sample_id, begin_pos, end_pos, tag, tagger_id) " +
+        String sql = "INSERT INTO image_data (dataset_id, sample_id, begin_pos, end_pos, tag, tagger_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(
                 sql,
@@ -42,7 +42,7 @@ public class ImageTagDataRepo {
         );
     }
     public TagData findById(Long id) {
-        String sql = "SELECT * FROM TagData WHERE id = ?";
+        String sql = "SELECT * FROM image_data WHERE id = ?";
         return jdbcTemplate.queryForObject(
                 sql,
                 new Object[]{id},
@@ -50,7 +50,7 @@ public class ImageTagDataRepo {
         );
     }
     public void delete(TagData tagData) {
-        String sql = "DELETE FROM TagData WHERE id = ?";
+        String sql = "DELETE FROM image_data WHERE id = ?";
         jdbcTemplate.update(sql, tagData.getId());
     }
 }
