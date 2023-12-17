@@ -75,5 +75,4 @@ public class UserRepository {
     }
 
 
-    // 可以根据需要添加其他方法，如分页查询等
 }
