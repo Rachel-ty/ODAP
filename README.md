@@ -7,7 +7,7 @@
 │   ├── controller              : The core part providing backend service
 │   ├── entity                  : database tables
 │   ├── exception               : exceptions
-│   ├── encode									: encode user password with pepper and salt
+│   ├── encode                  : encode user password with pepper and salt
 │   ├── Interceptor             : Interceptor that checks admin and authentication status
 │   ├── request                 : data request frontend sends to backend
 │   ├── response                : data response backend sends to frontend
